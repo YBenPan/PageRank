@@ -16,12 +16,28 @@ def transition_matrix(adj_matrix):
     for i in range(n):
         T[i, :] /= np.sum(T[i])
 
-    print(T)
+    return T
+
+
+def page_rank(transition_matrix, num_it=1000):
+    T = transition_matrix.copy().T # Need to explain why transpose
+    n = T.shape[0]
+    print("Transition Matrix:\n", T)
+
+    V = np.array([1 / n] * n)
+    print("Rank vector:\n", V)
+
+    for i in range(num_it):
+        V = np.matmul(T, V)
+
+    return V
 
 
 def main():
     g1 = np.array([[0, 1, 1, 1], [1, 0, 0, 1], [0, 1, 0, 1], [1, 0, 0, 0]])
-    transition_matrix(g1)
+    T = transition_matrix(g1)
+    V = page_rank(T)
+    print("Final Rank:\n", V)
 
 
 if __name__ == "__main__":
